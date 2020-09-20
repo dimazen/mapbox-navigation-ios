@@ -7,10 +7,8 @@ extension NavigationView {
         mapView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         mapView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         
-        mapView.logoView.bottomAnchor.constraint(equalTo: bottomBannerContainerView.topAnchor, constant: -10).isActive = true
-        mapView.logoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
-        mapView.attributionButton.bottomAnchor.constraint(equalTo: bottomBannerContainerView.topAnchor, constant: -10).isActive = true
-        mapView.attributionButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
+        mapView.logoView.bottomAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: bottomBannerContainerView.topAnchor, multiplier: 1).isActive = true
+        mapView.attributionButton.bottomAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: bottomBannerContainerView.topAnchor, multiplier: 1).isActive = true
         
         topBannerContainerView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         topBannerContainerView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
@@ -55,6 +53,7 @@ extension NavigationView {
         }
         
         bottomBannerContainerHeightConstraint = bottomBannerContainerView.heightAnchor.constraint(equalToConstant: height)
+        bottomBannerContainerHeightConstraint?.priority = .defaultHigh
         bottomBannerContainerHeightConstraint?.isActive = true
     }
 

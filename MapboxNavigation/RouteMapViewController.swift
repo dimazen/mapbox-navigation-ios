@@ -107,30 +107,17 @@ class RouteMapViewController: UIViewController {
      A Boolean value that determines whether the map altitude should change based on internal conditions.
     */
     var suppressAutomaticAltitudeChanges: Bool = false
+    
+    private var topBanner: ContainerViewController?
+    private var bottomBanner: ContainerViewController?
 
     convenience init(navigationService: NavigationService, delegate: RouteMapViewControllerDelegate? = nil, topBanner: ContainerViewController, bottomBanner: ContainerViewController) {
         self.init()
+        self.topBanner = topBanner
+        self.bottomBanner = bottomBanner
         self.navService = navigationService
         self.delegate = delegate
         automaticallyAdjustsScrollViewInsets = false
-        let topContainer = navigationView.topBannerContainerView
-        
-        embed(topBanner, in: topContainer) { (parent, banner) -> [NSLayoutConstraint] in
-            banner.view.translatesAutoresizingMaskIntoConstraints = false
-            return banner.view.constraintsForPinning(to: self.navigationView.topBannerContainerView)
-        }
-        
-        topContainer.backgroundColor = .clear
-        
-        let bottomContainer = navigationView.bottomBannerContainerView
-        embed(bottomBanner, in: bottomContainer) { (parent, banner) -> [NSLayoutConstraint] in
-            banner.view.translatesAutoresizingMaskIntoConstraints = false
-            return banner.view.constraintsForPinning(to: self.navigationView.bottomBannerContainerView)
-        }
-        
-        bottomContainer.backgroundColor = .clear
-        
-        view.bringSubviewToFront(topBannerContainerView)
     }
 
     override func loadView() {
@@ -140,6 +127,29 @@ class RouteMapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let topContainer = navigationView.topBannerContainerView
+        
+        topBanner.map {
+            embed($0, in: topContainer) { (parent, banner) -> [NSLayoutConstraint] in
+                banner.view.translatesAutoresizingMaskIntoConstraints = false
+                return banner.view.constraintsForPinning(to: self.navigationView.topBannerContainerView)
+            }
+        }
+        
+        topContainer.backgroundColor = .clear
+        
+        let bottomContainer = navigationView.bottomBannerContainerView
+        bottomBanner.map {
+            embed($0, in: bottomContainer) { (parent, banner) -> [NSLayoutConstraint] in
+                banner.view.translatesAutoresizingMaskIntoConstraints = false
+                return banner.view.constraintsForPinning(to: self.navigationView.bottomBannerContainerView)
+            }
+        }
+        
+        bottomContainer.backgroundColor = .clear
+        
+        view.bringSubviewToFront(topBannerContainerView)
         
         let mapView = self.mapView
         mapView.contentInset = contentInset(forOverviewing: false)
@@ -217,11 +227,10 @@ class RouteMapViewController: UIViewController {
     }
 
     func embed(_ child: UIViewController, in container: UIView, constrainedBy constraints: ((RouteMapViewController, UIViewController) -> [NSLayoutConstraint])?) {
-        child.willMove(toParent: self)
         addChild(child)
         container.addSubview(child.view)
         if let childConstraints: [NSLayoutConstraint] = constraints?(self, child) {
-            view.addConstraints(childConstraints)
+            NSLayoutConstraint.activate(childConstraints)
         }
         child.didMove(toParent: self)
     }
@@ -231,7 +240,6 @@ class RouteMapViewController: UIViewController {
         mapView.enableFrameByFrameCourseViewTracking(for: 3)
         isInOverviewMode = false
 
-        
         mapView.updateCourseTracking(location: mapView.userLocationForCourseTracking)
         updateCameraAltitude(for: router.routeProgress)
         
