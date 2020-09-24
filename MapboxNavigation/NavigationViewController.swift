@@ -131,6 +131,16 @@ open class NavigationViewController: UIViewController, NavigationStatusPresenter
         }
     }
     
+    public var showsMute: Bool {
+        get { mapViewController?.showsMute ?? true }
+        set { mapViewController?.showsMute = newValue }
+    }
+    
+    public var showsOverview: Bool {
+        get { mapViewController?.showsOverview ?? true }
+        set { mapViewController?.showsOverview = newValue }
+    }
+    
     /**
      Shows the current speed limit on the map view.
      
@@ -141,6 +151,8 @@ open class NavigationViewController: UIViewController, NavigationStatusPresenter
             mapViewController?.showsSpeedLimits = showsSpeedLimits
         }
     }
+	
+		public var allowsInstructionsSwiping: Bool = true
     
     /**
      If true, the map style and UI will automatically be updated given the time of day.
@@ -786,6 +798,10 @@ extension NavigationViewController {
 // MARK: TopBannerViewControllerDelegate
 extension NavigationViewController: TopBannerViewControllerDelegate {    
     public func topBanner(_ banner: TopBannerViewController, didSwipeInDirection direction: UISwipeGestureRecognizer.Direction) {
+        if !allowsInstructionsSwiping && !banner.isDisplayingSteps {
+            return
+        }
+			
         let progress = navigationService.routeProgress
         let route = progress.route
         switch direction {

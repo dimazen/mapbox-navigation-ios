@@ -17,16 +17,18 @@ extension NavigationView {
         floatingStackView.topAnchor.constraint(equalTo: topBannerContainerView.bottomAnchor, constant: 10).isActive = true
         floatingStackView.trailingAnchor.constraint(equalTo: safeTrailingAnchor, constant: -10).isActive = true
         
-        resumeButton.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: 10).isActive = true
-        resumeButton.bottomAnchor.constraint(equalTo: bottomBannerContainerView.topAnchor, constant: -10).isActive = true
+        resumeButton.leadingAnchor.constraint(equalToSystemSpacingAfter: safeLeadingAnchor, multiplier: 1).isActive = true
+        resumeButton.bottomAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: safeBottomAnchor, multiplier: 1).isActive = true
+        resumeButton.bottomAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: bottomBannerContainerView.topAnchor, multiplier: 1).isActive = true
 
         bottomBannerContainerView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         bottomBannerContainerView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         bottomBannerContainerView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
         wayNameView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        wayNameView.bottomAnchor.constraint(equalTo: bottomBannerContainerView.topAnchor, constant: -10).isActive = true
-        
+        wayNameView.bottomAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: safeBottomAnchor, multiplier: 1).isActive = true
+        wayNameView.bottomAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: bottomBannerContainerView.topAnchor, multiplier: 1).isActive = true
+
         speedLimitView.topAnchor.constraint(equalTo: topBannerContainerView.bottomAnchor, constant: 10).isActive = true
         speedLimitView.leadingAnchor.constraint(equalTo: safeLeadingAnchor, constant: 10).isActive = true
         speedLimitView.widthAnchor.constraint(equalToConstant: FloatingButton.buttonSize.width).isActive = true

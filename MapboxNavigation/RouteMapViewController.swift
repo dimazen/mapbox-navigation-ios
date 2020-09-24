@@ -40,6 +40,18 @@ class RouteMapViewController: UIViewController {
             navigationView.speedLimitView.isAlwaysHidden = !showsSpeedLimits
         }
     }
+	
+    var showsMute: Bool = true {
+        didSet {
+            navigationView.muteButton.isHidden = !showsMute
+        }
+    }
+    
+    var showsOverview: Bool = true {
+        didSet {
+            navigationView.overviewButton.isHidden = !showsOverview
+        }
+    }
 
     var detailedFeedbackEnabled: Bool = false
 
