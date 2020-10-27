@@ -68,7 +68,7 @@ open class DismissButton: Button { }
 /// :nodoc:
 @objc(MBFloatingButton)
 open class FloatingButton: Button {
-    static let buttonSize = CGSize(width: 50, height: 50)
+    static let buttonSize = CGSize(width: 48, height: 48)
     static let sizeConstraintPriority = UILayoutPriority(999.0) //Don't fight with the stack view (superview) when it tries to hide buttons.
     
     lazy var widthConstraint: NSLayoutConstraint = {

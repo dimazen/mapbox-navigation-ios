@@ -40,6 +40,8 @@ open class NavigationView: UIView {
     private enum Constants {
         static let endOfRouteHeight: CGFloat = 260.0
         static let buttonSpacing: CGFloat = 8.0
+			
+			static let resumeCornerRadius: CGFloat = 20
     }
     
     lazy var endOfRouteShowConstraint: NSLayoutConstraint? = self.endOfRouteView?.bottomAnchor.constraint(equalTo: self.safeBottomAnchor)
@@ -148,6 +150,9 @@ open class NavigationView: UIView {
             speedLimitView,
             bottomBannerContainerView
         ]
+			
+			resumeButton.layer.cornerRadius = Constants.resumeCornerRadius
+			resumeButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
         addSubviews(children)
     }
